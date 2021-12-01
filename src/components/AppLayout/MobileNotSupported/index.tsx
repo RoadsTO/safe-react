@@ -117,7 +117,7 @@ export const MobileNotSupported = ({ onClose }: Props): ReactElement => {
             <Button size="md" color="primary" variant="contained">
               <StyledLink target="_blank" href="https://gnosis-safe.io/#mobile" rel="noopener noreferrer">
                 <Text color="white" size="xl">
-                  Get the App
+                  Delete Me
                 </Text>
               </StyledLink>
             </Button>
