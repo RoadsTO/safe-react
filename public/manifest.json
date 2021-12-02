@@ -1,0 +1,11 @@
+{
+  "short_name": "Gnosis Safe",
+  "name": "The Web3 OS",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "https://play.google.com/store/apps/details?id=io.gnosis.safe"
+    }
+  ]
+}
