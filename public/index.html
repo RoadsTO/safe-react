@@ -34,17 +34,6 @@
       }
     }
   </style>
-  <script>
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      console.log('before installed prompt!!')
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      alert('you should install me');
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      deferredPrompt = e;
-    });
-  </script>
   <body>
     <img id="safe-preloader-animation" src="./resources/safe.png" />
     <div id="root" style="overflow: hidden"></div>
