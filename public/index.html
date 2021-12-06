@@ -6,7 +6,7 @@
     <meta name="apple-itunes-app" content="app-id=1515759131">
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="manifest" href="./manifest.json" />
+    <link rel="manifest" href="manifest.json" />
     <base href="%PUBLIC_URL%/" />
     <title>Gnosis Safe</title>
   </head>
@@ -34,6 +34,17 @@
       }
     }
   </style>
+  <script>
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('before installed prompt!!')
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      alert('you should install me');
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      deferredPrompt = e;
+    });
+  </script>
   <body>
     <img id="safe-preloader-animation" src="./resources/safe.png" />
     <div id="root" style="overflow: hidden"></div>
