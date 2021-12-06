@@ -1,14 +1,14 @@
 {
-  "short_name": "Gnosis Safe",
-  "name": "The Web3 OS",
+  "short_name": "Gnosis Safe App",
+  "name": "Gnosis Safe App",
   "icons": [
     {
-      "src": "resources/logo192.png",
+      "src": "resources/safe192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "resources/logo512.png",
+      "src": "resources/safe512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
