@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useLocation, matchPath } from 'react-router-dom'
 
@@ -7,6 +8,7 @@ import Header from './Header'
 import Footer from './Footer'
 import Sidebar from './Sidebar'
 import { SAFE_ROUTES, WELCOME_ROUTE } from 'src/routes/routes'
+import { MobileNotSupported } from './MobileNotSupported'
 
 const Container = styled.div`
   height: 100vh;
@@ -88,7 +90,25 @@ const Layout: React.FC<Props> = ({
   children,
   sidebarItems,
 }): React.ReactElement => {
+  const [mobileNotSupportedClosed, setMobileNotSupportedClosed] = useState(false)
   const { pathname } = useLocation()
+  let deferredPrompt
+
+  const closeMobileNotSupported = () => setMobileNotSupportedClosed(true)
+
+  const showMobileNotSupprtedBanner = (e) => {
+    deferredPrompt = e
+    // Prevent the mini-infobar from appearing on mobile
+    // e.preventDefault()
+  }
+
+  useEffect(() => {
+    window.addEventListener('beforeinstallprompt', showMobileNotSupprtedBanner)
+
+    return () => {
+      removeEventListener('beforeinstallprompt', showMobileNotSupprtedBanner)
+    }
+  }, [])
 
   const hasFooter = !!matchPath(pathname, {
     path: [SAFE_ROUTES.SETTINGS, WELCOME_ROUTE],
@@ -101,6 +121,7 @@ const Layout: React.FC<Props> = ({
       </HeaderWrapper>
       <BodyWrapper>
         <SidebarWrapper data-testid="sidebar">
+          <button onClick={() => deferredPrompt.prompt()}>click me !</button>
           <Sidebar
             items={sidebarItems}
             safeAddress={safeAddress}
@@ -117,6 +138,8 @@ const Layout: React.FC<Props> = ({
           {hasFooter && <Footer />}
         </ContentWrapper>
       </BodyWrapper>
+
+      {!mobileNotSupportedClosed && <MobileNotSupported onClose={closeMobileNotSupported} />}
     </Container>
   )
 }
