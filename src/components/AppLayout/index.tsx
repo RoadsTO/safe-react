@@ -93,12 +93,14 @@ const Layout: React.FC<Props> = ({
   const [mobileNotSupportedClosed, setMobileNotSupportedClosed] = useState(false)
   const { pathname } = useLocation()
   const [isWebAppInstalled, setIsWebAppInstalled] = useState<boolean | undefined>()
+  const [content, setContent] = useState<string>('not installed')
   let deferredPrompt
 
   const closeMobileNotSupported = () => setMobileNotSupportedClosed(true)
 
   const showMobileNotSupportedBanner = (e) => {
     setIsWebAppInstalled(false)
+    setContent('click to install')
     console.log('beforeinstallprompt', e)
     deferredPrompt = e
     // Prevent the mini-infobar from appearing on mobile
@@ -129,12 +131,12 @@ const Layout: React.FC<Props> = ({
           {!isWebAppInstalled && (
             <button
               onClick={() => {
-                console.log(deferredPrompt)
+                alert(deferredPrompt)
                 deferredPrompt.prompt()
                 setTimeout(() => alert('dis i show the prompt?'), 5000)
               }}
             >
-              click me !
+              {content}
             </button>
           )}
           <Sidebar
