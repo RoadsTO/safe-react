@@ -97,9 +97,11 @@ const Layout: React.FC<Props> = ({
   const closeMobileNotSupported = () => setMobileNotSupportedClosed(true)
 
   const showMobileNotSupprtedBanner = (e) => {
+    console.log('beforeinstallprompt', e)
     deferredPrompt = e
     // Prevent the mini-infobar from appearing on mobile
     // e.preventDefault()
+    alert(e)
   }
 
   useEffect(() => {
@@ -121,7 +123,14 @@ const Layout: React.FC<Props> = ({
       </HeaderWrapper>
       <BodyWrapper>
         <SidebarWrapper data-testid="sidebar">
-          <button onClick={() => deferredPrompt.prompt()}>click me !</button>
+          <button
+            onClick={() => {
+              console.log(deferredPrompt)
+              deferredPrompt.prompt()
+            }}
+          >
+            click me !
+          </button>
           <Sidebar
             items={sidebarItems}
             safeAddress={safeAddress}
