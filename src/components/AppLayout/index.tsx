@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useLocation, matchPath } from 'react-router-dom'
 
@@ -94,7 +94,7 @@ const Layout: React.FC<Props> = ({
   const { pathname } = useLocation()
   const [isWebAppInstalled, setIsWebAppInstalled] = useState<boolean | undefined>()
   const [content, setContent] = useState<string>('not installed')
-  let deferredPrompt
+  const deferredPrompt = useRef(null)
 
   const closeMobileNotSupported = () => setMobileNotSupportedClosed(true)
 
@@ -102,7 +102,7 @@ const Layout: React.FC<Props> = ({
     setIsWebAppInstalled(false)
     setContent('click to install')
     console.log('beforeinstallprompt', e)
-    deferredPrompt = e
+    deferredPrompt.current = e
     // Prevent the mini-infobar from appearing on mobile
     // e.preventDefault()
     alert(e)
@@ -131,9 +131,14 @@ const Layout: React.FC<Props> = ({
           {!isWebAppInstalled && (
             <button
               onClick={() => {
-                alert(deferredPrompt)
-                deferredPrompt.prompt()
-                setTimeout(() => alert('dis i show the prompt?'), 5000)
+                alert(deferredPrompt.current)
+                if (deferredPrompt.current) {
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  deferredPrompt.current.prompt()
+                } else {
+                  alert('deferredPrompt is not def')
+                }
               }}
             >
               {content}
