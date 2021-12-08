@@ -92,20 +92,12 @@ const Layout: React.FC<Props> = ({
 }): React.ReactElement => {
   const [mobileNotSupportedClosed, setMobileNotSupportedClosed] = useState(false)
   const { pathname } = useLocation()
-  const [isWebAppInstalled, setIsWebAppInstalled] = useState<boolean | undefined>()
-  const [content, setContent] = useState<string>('not installed')
   const deferredPrompt = useRef(null)
 
   const closeMobileNotSupported = () => setMobileNotSupportedClosed(true)
 
   const showMobileNotSupportedBanner = (e) => {
-    setIsWebAppInstalled(false)
-    setContent('click to install')
-    console.log('beforeinstallprompt', e)
     deferredPrompt.current = e
-    // Prevent the mini-infobar from appearing on mobile
-    // e.preventDefault()
-    alert(e)
   }
 
   useEffect(() => {
@@ -121,6 +113,16 @@ const Layout: React.FC<Props> = ({
     path: [SAFE_ROUTES.SETTINGS, WELCOME_ROUTE],
   })
 
+  const onClickInstall = () => {
+    if (deferredPrompt.current) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      deferredPrompt.current.prompt()
+    } else {
+      alert('deferredPrompt is not def')
+    }
+  }
+
   return (
     <Container>
       <HeaderWrapper>
@@ -128,22 +130,6 @@ const Layout: React.FC<Props> = ({
       </HeaderWrapper>
       <BodyWrapper>
         <SidebarWrapper data-testid="sidebar">
-          {!isWebAppInstalled && (
-            <button
-              onClick={() => {
-                alert(deferredPrompt.current)
-                if (deferredPrompt.current) {
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore
-                  deferredPrompt.current.prompt()
-                } else {
-                  alert('deferredPrompt is not def')
-                }
-              }}
-            >
-              {content}
-            </button>
-          )}
           <Sidebar
             items={sidebarItems}
             safeAddress={safeAddress}
@@ -161,7 +147,9 @@ const Layout: React.FC<Props> = ({
         </ContentWrapper>
       </BodyWrapper>
 
-      {!mobileNotSupportedClosed && <MobileNotSupported onClose={closeMobileNotSupported} />}
+      {!mobileNotSupportedClosed && (
+        <MobileNotSupported onClose={closeMobileNotSupported} onClickInstall={onClickInstall} />
+      )}
     </Container>
   )
 }
