@@ -116,15 +116,15 @@ export const MobileNotSupported = ({ onClose, onClickInstall }: Props): ReactEle
             <Text size="lg">The Gnosis Safe web app is not optimized for mobile.</Text>
             <Text size="lg">Get the mobile app for a better experience.</Text>
             <Button size="md" color="primary" variant="contained" onClick={onClickInstall}>
-              {onClickInstall ? (
+              {!onClickInstall ? (
                 <StyledLink target="_blank" href="https://gnosis-safe.io/#mobile" rel="noopener noreferrer">
                   <Text color="white" size="xl">
-                    Get the App
+                    Get the App (old)
                   </Text>
                 </StyledLink>
               ) : (
                 <Text color="white" size="xl">
-                  Get the by callback
+                  Get the App
                 </Text>
               )}
             </Button>
